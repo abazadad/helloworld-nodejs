@@ -1,10 +1,16 @@
 pipeline {
   agent any
   stages {
-    stage('Say Hello') {
+    stage('Test') {
+      agent { label 'nodejs-app' }
       steps {
-        echo 'Hello World!'   
-        sh 'java -version'
+        container('nodejs') {
+          echo 'Hello World!'   
+          sh 'java -version'
+        }
+        steps {
+           error 'fake error to force failure in test stage/gate'
+        }
       }
     }
   }
